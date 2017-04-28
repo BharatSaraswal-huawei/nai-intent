@@ -81,7 +81,7 @@ A. post an intent.
 
 Note: here value for src host ip and dst host ip will change as per the hostIp in onos.
 
-http://192.168.123.1:8181/onos/nai/nai
+http://192.168.123.1:8181/onos/nai/intent
 
     json: 'POST'
     {
@@ -99,7 +99,7 @@ B. update an intent.
 
 Note: here value for src host ip and dst host ip will change as per the hostIp in onos.
 
-http://192.168.123.1:8181/onos/nai/nai
+http://192.168.123.1:8181/onos/nai/intent
 
     json: 'PUT'
     {
@@ -116,7 +116,7 @@ C. revert an intent.
 
 Note: here value for intent id in end may change based on the intent id.
 
-http://192.168.123.1:8181/onos/nai/nai/0x0  
+http://192.168.123.1:8181/onos/nai/intent/0x0  
 
 'DELETE'
 
@@ -125,7 +125,7 @@ http://192.168.123.1:8181/onos/nai/nai/0x0
 
 D. Delete all intent.
 
-http://192.168.123.1:8181/onos/nai/nai/
+http://192.168.123.1:8181/onos/nai/intent
 
 'DELETE'
 
