@@ -3,17 +3,21 @@ Step:1: terminal 1:
 cd ~/onos/tools/dev/mininet
 sudo mn --custom onos.py --controller onos,1 --topo torus,3,3
 
-then do pingall
+Step2: on mininet console. run below command. onos will detect hosts after this.
+
+pingall
 -----------
-Step2: terminal 2:
+Step3: terminal 2:
 
 cd /tmp/onos1/karaf/bin
 client -h 192.168.123.1
 ------------------------------
-Step3: in onos cli to configure bandwidth value for each port. of each device. port 1 should have more bandwidth then others.(value in mbps)
-
+Step4: activate nai app.
+on onos cli:
 
 app activate org.onosproject.nai.intent
+
+Step5: in onos cli to configure bandwidth value for each port. of each device. port 1 should have more bandwidth then others.(value in mbps)
 
 port-bw-config of:0000000000000101 1 1000
 port-bw-config of:0000000000000101 2 100
@@ -69,14 +73,13 @@ port-bw-config of:0000000000000303 3 100
 port-bw-config of:0000000000000303 4 100
 port-bw-config of:0000000000000303 5 100
 
-
 to verify this
 
 resources of:0000000000000303
 
 will show all the resources for device 303.
 ------------------------------------------------------
-Step4:
+Step6:
 A. post an intent.
 
 Note: here value for src host ip and dst host ip will change as per the hostIp in onos.
