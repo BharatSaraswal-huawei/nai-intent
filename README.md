@@ -1,14 +1,15 @@
 # nai-intent
-Step:1: terminal 1: 
-       A. cd ~/onos/tools/dev/mininet
-       B. sudo mn --custom onos.py --controller onos,1 --topo torus,3,3
+
+Step:1: terminal 1:
+cd ~/onos/tools/dev/mininet
+sudo mn --custom onos.py --controller onos,1 --topo torus,3,3
 
 Step2: on mininet console. run below command. onos will detect hosts after this.
-      A. pingall
+    pingall
 
 Step3: terminal 2:
-      A. cd /tmp/onos1/karaf/bin
-      B. client -h 192.168.123.
+    cd /tmp/onos1/karaf/bin
+    client -h 192.168.123.
 
 Step4: activate nai app on onos cli/UI:
 
