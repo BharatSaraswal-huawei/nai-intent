@@ -123,59 +123,9 @@ public class NaiIntentManager implements NaiIntentService {
                                    String dstHostIp, int priority) {
         Host src = hostStore.get(srcHostIp);
         Host dst = hostStore.get(dstHostIp);
-        Intent pre = preIntent();
-        Intent id = create(bandwidth, src, dst, priority);
-        //delete previous intent.
-        intentService.withdraw(pre);
-        return id;
-    }
 
-    private Intent preIntent() {
-        Set<Map.Entry<IntentId, Intent>> entry = intentStore.entrySet();
-        if (intentStore.size() != 1) {
-
-            Intent cur;
-            for (Map.Entry<IntentId, Intent> intent : entry) {
-                cur = intent.getValue();
-                if (intentService.getIntentState(cur.key()) == WITHDRAWN) {
-                    intentService.purge(cur);
-                    intentStore.remove(cur.id());
-                }
-            }
-        }
-        return entry.iterator().next().getValue();
-    }
-
-    @Override
-    public Intent reinstallPreviousIntent(IntentId id) {
-
-        if (intentStore.containsKey(id)) {
-            Iterator<Intent> intentIterator = intentService.getIntents()
-                    .iterator();
-            Intent pre = null;
-            Intent cur;
-            while (intentIterator.hasNext()) {
-                cur = intentIterator.next();
-                if (!cur.id().equals(id)) {
-                    pre = cur;
-                }
-            }
-            Intent it = intentStore.get(id);
-            intentService.submit(it);
-            if (waitForIntent(it.key()) == INSTALLED) {
-                key++;
-                intentStore.put(id, it);
-                if (pre != null) {
-                    //delete previous intent.
-                    intentService.withdraw(pre);
-                }
-                log.info("intent has been installed.");
-            }
-            return pre;
-        } else {
-            log.error("intent with id does not exists.");
-        }
-        return null;
+        deleteAll();
+        return create(bandwidth, src, dst, priority);
     }
 
     @Override
@@ -232,7 +182,7 @@ public class NaiIntentManager implements NaiIntentService {
             priority = DEFAULT_INTENT_PRIORITY;
         }
 
-        HostToHostIntent intent = HostToHostIntent.builder()
+        HostToHostIntent forward = HostToHostIntent.builder()
                 .appId(appId)
                 .key(k)
                 .one(oneId)
@@ -243,15 +193,37 @@ public class NaiIntentManager implements NaiIntentService {
                 .priority(priority)
                 .resourceGroup(null)
                 .build();
-        service.submit(intent);
+        service.submit(forward);
 
         //wait until intent get installed/failed.
         if (waitForIntent(k) == INSTALLED) {
             key++;
-            intentStore.put(intent.id(), intent);
-            log.info("intent has been installed.");
+            intentStore.put(forward.id(), forward);
+            log.info("forward intent has been installed.");
         }
-        return intent;
+
+        //Adding reverse intent.
+        k = Key.of(String.valueOf(key), appId);
+        HostToHostIntent reverse = HostToHostIntent.builder()
+                .appId(appId)
+                .key(k)
+                .one(twoId)
+                .two(oneId)
+                .selector(selector)
+                .treatment(treatment)
+                .constraints(constraints)
+                .priority(priority)
+                .resourceGroup(null)
+                .build();
+        service.submit(reverse);
+
+        //wait until intent get installed/failed.
+        if (waitForIntent(k) == INSTALLED) {
+            key++;
+            intentStore.put(reverse.id(), reverse);
+            log.info("reverse intent has been installed.");
+        }
+        return forward;
     }
 
     /**

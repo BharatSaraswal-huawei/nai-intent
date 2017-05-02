@@ -16,7 +16,6 @@
 package org.onosproject.nai.intent;
 
 import org.onosproject.net.intent.Intent;
-import org.onosproject.net.intent.IntentId;
 import org.onosproject.net.intent.IntentService;
 
 /**
@@ -48,13 +47,6 @@ public interface NaiIntentService extends IntentService {
      */
     Intent provideNewIntent(String bandwidth, String srcHostIp, String
             dstHostIp, int priority);
-
-    /**
-     * Reinstall previously installed intent.
-     *
-     * @param id intent id
-     */
-    Intent reinstallPreviousIntent(IntentId id);
 
     /**
      * Deletes all intents.

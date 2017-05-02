@@ -40,20 +40,12 @@
             </completers>
         </command>
 
-        <command>
-            <action class="org.onosproject.nai.cli.NaiIntentReInstallCommand"/>
-            <completers>
-                <ref component-id="intentIdCompleter"/>
-            </completers>
-        </command>
-
     </command-bundle>
 
     <bean id="deviceIdCompleter"
           class="org.onosproject.cli.net.DeviceIdCompleter"/>
     <bean id="portNumberCompleter"
           class="org.onosproject.cli.net.PortNumberCompleter"/>
-    <bean id="intentIdCompleter"
-          class="org.onosproject.nai.cli.IntentIdCompleter"/>
-    <bean id="hostIpCompleter" class="org.onosproject.nai.cli.HostIpCompleter"/>
+    <bean id="hostIpCompleter"
+          class="org.onosproject.nai.cli.HostIpCompleter"/>
 </blueprint>

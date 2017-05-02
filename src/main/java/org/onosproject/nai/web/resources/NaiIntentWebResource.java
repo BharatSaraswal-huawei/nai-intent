@@ -22,7 +22,6 @@ import org.onosproject.cli.AbstractShellCommand;
 import org.onosproject.core.CoreService;
 import org.onosproject.nai.intent.NaiIntentService;
 import org.onosproject.net.intent.Intent;
-import org.onosproject.net.intent.IntentId;
 import org.onosproject.net.intent.Key;
 import org.onosproject.rest.AbstractWebResource;
 import org.slf4j.Logger;
@@ -154,22 +153,6 @@ public class NaiIntentWebResource extends AbstractWebResource {
         }
     }
 
-    /**
-     * Reverts intent.
-     *
-     * @param id intent id
-     * @return 204 NO CONTENT
-     */
-    @Path("{intent_id}")
-    @DELETE
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Response revetIntent(@PathParam("intent_id") String id) {
-        IntentId intentId = IntentId.valueOf(id);
-        Intent intent = get(NaiIntentService.class)
-                .reinstallPreviousIntent(intentId);
-        return Response.status(OK).entity(intent != null).build();
-    }
 
     /**
      * delete all intent.

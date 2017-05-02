@@ -112,18 +112,7 @@ http://192.168.123.1:8181/onos/nai/intent
 
 ----------------------------------------------
 
-C. revert an intent.
-
-Note: here value for intent id in end may change based on the intent id.
-
-http://192.168.123.1:8181/onos/nai/intent/0x0  
-
-'DELETE'
-
-
-----------------------------------------------
-
-D. Delete all intent.
+C. Delete all intent.
 
 http://192.168.123.1:8181/onos/nai/intent
 
