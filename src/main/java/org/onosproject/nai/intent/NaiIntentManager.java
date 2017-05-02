@@ -112,7 +112,10 @@ public class NaiIntentManager implements NaiIntentService {
             dstHostIp, int priority) {
         Host src = hostStore.get(srcHostIp);
         Host dst = hostStore.get(dstHostIp);
-        return create(bandwidth, src, dst, priority);
+        if (intentStore.isEmpty()) {
+            return create(bandwidth, src, dst, priority);
+        }
+        return provideNewIntent(bandwidth, srcHostIp, dstHostIp, priority);
     }
 
     @Override
